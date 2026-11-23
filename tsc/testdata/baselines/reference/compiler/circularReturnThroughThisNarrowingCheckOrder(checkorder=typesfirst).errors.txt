@@ -1,11 +1,12 @@
-circularReturnThroughThisNarrowingCheckOrder.ts(8,13): error TS7023: 'add' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
-circularReturnThroughThisNarrowingCheckOrder.ts(12,15): error TS7022: 'w' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+circularReturnThroughThisNarrowingCheckOrder.ts(9,13): error TS7023: 'add' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
+circularReturnThroughThisNarrowingCheckOrder.ts(13,15): error TS7022: 'w' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
 
 
 ==== circularReturnThroughThisNarrowingCheckOrder.ts (2 errors) ====
     // Narrowing this by a type guard in a method relates the class to a
     // derived class, whose members include the method being inferred. The
-    // circularity is reported whether the class or its methods are typed first
+    // relation only observes the method's return type in progress, so the
+    // method is not circular, whether the class or its methods are typed first
     // (55069).
     
     declare function isDerived(p: Base): p is Derived;
