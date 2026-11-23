@@ -1,0 +1,32 @@
+//// [tests/cases/compiler/instantiatedObjectLiteralFromUnionSpread.ts] ////
+
+=== instantiatedObjectLiteralFromUnionSpread.ts ===
+// A spread of a union of two object types in a generic function makes two
+// object literal types that share the symbol of the spread expression. Each
+// call of the function instantiates both of them with the same type
+// arguments, so the return type of the call is a union of two instantiations
+// with equal mappers.
+
+declare const ctx: { a: string; b: undefined } | { a: string; b: number };
+>ctx : Symbol(ctx, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 13))
+>a : Symbol(a, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 20))
+>b : Symbol(b, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 31))
+>a : Symbol(a, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 50))
+>b : Symbol(b, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 61))
+
+function read<K extends string>(fields: readonly K[]) {
+>read : Symbol(read, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 74))
+>K : Symbol(K, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 8, 14))
+>fields : Symbol(fields, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 8, 32))
+>K : Symbol(K, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 8, 14))
+
+    return { ...ctx, projection: fields };
+>ctx : Symbol(ctx, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 13))
+>projection : Symbol(projection, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 9, 20))
+>fields : Symbol(fields, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 8, 32))
+}
+
+export const r = read(["x"]);
+>r : Symbol(r, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 12, 12))
+>read : Symbol(read, Decl(instantiatedObjectLiteralFromUnionSpread.ts, 6, 74))
+

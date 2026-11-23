@@ -1,0 +1,22 @@
+//// [tests/cases/compiler/unresolvedQualifiedNamesSharingName.ts] ////
+
+=== unresolvedQualifiedNamesSharingName.ts ===
+import type * as Bidi from "missing-a";
+>Bidi : Symbol(Bidi, Decl(unresolvedQualifiedNamesSharingName.ts, 0, 11))
+
+import type { Protocol } from "missing-b";
+>Protocol : Symbol(Protocol, Decl(unresolvedQualifiedNamesSharingName.ts, 1, 13))
+
+type CdpEvent = Protocol.Cdp.Event;
+>CdpEvent : Symbol(CdpEvent, Decl(unresolvedQualifiedNamesSharingName.ts, 1, 42))
+>Protocol : Symbol(Protocol, Decl(unresolvedQualifiedNamesSharingName.ts, 1, 13))
+>Cdp : Symbol(Protocol.Cdp)
+>Event : Symbol(Protocol.Cdp.Event)
+
+export function f(event: Bidi.Event | CdpEvent) {}
+>f : Symbol(f, Decl(unresolvedQualifiedNamesSharingName.ts, 3, 35))
+>event : Symbol(event, Decl(unresolvedQualifiedNamesSharingName.ts, 4, 18))
+>Bidi : Symbol(Bidi, Decl(unresolvedQualifiedNamesSharingName.ts, 0, 11))
+>Event : Symbol(Bidi.Event)
+>CdpEvent : Symbol(CdpEvent, Decl(unresolvedQualifiedNamesSharingName.ts, 1, 42))
+

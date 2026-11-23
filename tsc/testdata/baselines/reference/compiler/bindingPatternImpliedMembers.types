@@ -1,0 +1,22 @@
+//// [tests/cases/compiler/bindingPatternImpliedMembers.ts] ////
+
+=== bindingPatternImpliedMembers.ts ===
+// Two function parameters are object binding patterns with the same
+// property name. Indexing the parameter list with number unions those
+// parameter types.
+
+function f({ a }, { a: b }) {}
+>f : ({ a }: { a: any; }, { a: b }: { a: any; }) => void
+>a : any
+>a : any
+>b : any
+
+type Params<T extends (...args: any) => any> = T extends (...args: infer P) => any ? P : never;
+>Params : Params<T>
+>args : any
+>args : P
+
+export type Both = Params<typeof f>[number];
+>Both : { a: any; } | { a: any; }
+>f : ({ a }: { a: any; }, { a: b }: { a: any; }) => void
+

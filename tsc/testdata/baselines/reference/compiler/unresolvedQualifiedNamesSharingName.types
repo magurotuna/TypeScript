@@ -1,0 +1,19 @@
+//// [tests/cases/compiler/unresolvedQualifiedNamesSharingName.ts] ////
+
+=== unresolvedQualifiedNamesSharingName.ts ===
+import type * as Bidi from "missing-a";
+>Bidi : any
+
+import type { Protocol } from "missing-b";
+>Protocol : any
+
+type CdpEvent = Protocol.Cdp.Event;
+>CdpEvent : Protocol.Cdp.Event
+>Protocol : any
+>Cdp : any
+
+export function f(event: Bidi.Event | CdpEvent) {}
+>f : (event: Bidi.Event | CdpEvent) => void
+>event : any
+>Bidi : any
+

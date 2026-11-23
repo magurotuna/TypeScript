@@ -1,0 +1,34 @@
+//// [tests/cases/compiler/instantiatedObjectLiteralFromUnionSpread.ts] ////
+
+=== instantiatedObjectLiteralFromUnionSpread.ts ===
+// A spread of a union of two object types in a generic function makes two
+// object literal types that share the symbol of the spread expression. Each
+// call of the function instantiates both of them with the same type
+// arguments, so the return type of the call is a union of two instantiations
+// with equal mappers.
+
+declare const ctx: { a: string; b: undefined } | { a: string; b: number };
+>ctx : { a: string; b: undefined; } | { a: string; b: number; }
+>a : string
+>b : undefined
+>a : string
+>b : number
+
+function read<K extends string>(fields: readonly K[]) {
+>read : <K extends string>(fields: readonly K[]) => { a: string; b: undefined; projection: readonly K[]; } | { a: string; b: number; projection: readonly K[]; }
+>fields : readonly K[]
+
+    return { ...ctx, projection: fields };
+>{ ...ctx, projection: fields } : { a: string; b: undefined; projection: readonly K[]; } | { a: string; b: number; projection: readonly K[]; }
+>ctx : { a: string; b: undefined; } | { a: string; b: number; }
+>projection : readonly K[]
+>fields : readonly K[]
+}
+
+export const r = read(["x"]);
+>r : { a: string; b: undefined; projection: readonly "x"[]; } | { a: string; b: number; projection: readonly "x"[]; }
+>read(["x"]) : { a: string; b: undefined; projection: readonly "x"[]; } | { a: string; b: number; projection: readonly "x"[]; }
+>read : <K extends string>(fields: readonly K[]) => { a: string; b: undefined; projection: readonly K[]; } | { a: string; b: number; projection: readonly K[]; }
+>["x"] : "x"[]
+>"x" : "x"
+

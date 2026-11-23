@@ -1,0 +1,15 @@
+unresolvedQualifiedNamesSharingName.ts(1,28): error TS2307: Cannot find module 'missing-a' or its corresponding type declarations.
+unresolvedQualifiedNamesSharingName.ts(2,31): error TS2307: Cannot find module 'missing-b' or its corresponding type declarations.
+
+
+==== unresolvedQualifiedNamesSharingName.ts (2 errors) ====
+    import type * as Bidi from "missing-a";
+                               ~~~~~~~~~~~
+!!! error TS2307: Cannot find module 'missing-a' or its corresponding type declarations.
+    import type { Protocol } from "missing-b";
+                                  ~~~~~~~~~~~
+!!! error TS2307: Cannot find module 'missing-b' or its corresponding type declarations.
+    
+    type CdpEvent = Protocol.Cdp.Event;
+    export function f(event: Bidi.Event | CdpEvent) {}
+    

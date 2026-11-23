@@ -1,0 +1,23 @@
+//// [tests/cases/compiler/dynamicImportSyntheticDefaultWidening.ts] ////
+
+=== mod.d.ts ===
+declare const mod: { a: number };
+>mod : Symbol(mod, Decl(mod.d.ts, 0, 13))
+>a : Symbol(a, Decl(mod.d.ts, 0, 20))
+
+export = mod;
+>mod : Symbol(mod, Decl(mod.d.ts, 0, 13))
+
+=== main.ts ===
+async function f() {
+>f : Symbol(f, Decl(main.ts, 0, 0))
+
+    const widened = await import("./mod");
+>widened : Symbol(widened, Decl(main.ts, 1, 9))
+>"./mod" : Symbol("./mod", Decl(mod.d.ts, 0, 0))
+
+    return [await import("./mod"), widened];
+>"./mod" : Symbol("./mod", Decl(mod.d.ts, 0, 0))
+>widened : Symbol(widened, Decl(main.ts, 1, 9))
+}
+

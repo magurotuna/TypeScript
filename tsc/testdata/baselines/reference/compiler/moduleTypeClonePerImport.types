@@ -1,0 +1,41 @@
+//// [tests/cases/compiler/moduleTypeClonePerImport.ts] ////
+
+=== main.ts ===
+import * as a from "./reexport";
+>a : typeof a
+
+import b = require("./reexport");
+>b : typeof b
+
+export const all = [a, b];
+>all : (typeof b | typeof a)[]
+>[a, b] : (typeof b | typeof a)[]
+>a : typeof a
+>b : typeof b
+
+export async function g() { return [await import("./reexport"), a]; }
+>g : () => Promise<(typeof a)[]>
+>[await import("./reexport"), a] : (typeof a)[]
+>await import("./reexport") : { p: number; default: typeof b; }
+>import("./reexport") : Promise<{ p: number; default: typeof b; }>
+>"./reexport" : "./reexport"
+>a : typeof a
+
+=== base.d.ts ===
+declare function f(): void;
+>f : typeof f
+
+declare namespace f { const p: number }
+>f : typeof f
+>p : number
+
+export = f;
+>f : typeof f
+
+=== reexport.d.ts ===
+import * as o from "./base";
+>o : typeof o
+
+export = o;
+>o : typeof o
+

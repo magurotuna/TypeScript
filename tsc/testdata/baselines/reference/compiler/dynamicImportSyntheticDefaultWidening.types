@@ -1,0 +1,28 @@
+//// [tests/cases/compiler/dynamicImportSyntheticDefaultWidening.ts] ////
+
+=== mod.d.ts ===
+declare const mod: { a: number };
+>mod : { a: number; }
+>a : number
+
+export = mod;
+>mod : { a: number; }
+
+=== main.ts ===
+async function f() {
+>f : () => Promise<{ a: number; default: { a: number; }; }[]>
+
+    const widened = await import("./mod");
+>widened : { a: number; default: { a: number; }; }
+>await import("./mod") : { a: number; default: { a: number; }; }
+>import("./mod") : Promise<{ a: number; default: { a: number; }; }>
+>"./mod" : "./mod"
+
+    return [await import("./mod"), widened];
+>[await import("./mod"), widened] : { a: number; default: { a: number; }; }[]
+>await import("./mod") : { a: number; default: { a: number; }; }
+>import("./mod") : Promise<{ a: number; default: { a: number; }; }>
+>"./mod" : "./mod"
+>widened : { a: number; default: { a: number; }; }
+}
+

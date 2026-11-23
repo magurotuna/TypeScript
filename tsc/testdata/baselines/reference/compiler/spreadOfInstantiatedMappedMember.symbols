@@ -1,0 +1,33 @@
+//// [tests/cases/compiler/spreadOfInstantiatedMappedMember.ts] ////
+
+=== spreadOfInstantiatedMappedMember.ts ===
+// Two instantiations of a generic function each return a spread of the
+// same mapped type member. Spreading a union of those return types orders
+// the resulting object types by their members.
+
+type Member = { [F in "text"]: { filter: F } }["text"];
+>Member : Symbol(Member, Decl(spreadOfInstantiatedMappedMember.ts, 0, 0))
+>F : Symbol(F, Decl(spreadOfInstantiatedMappedMember.ts, 4, 17))
+>filter : Symbol(filter, Decl(spreadOfInstantiatedMappedMember.ts, 4, 32))
+>F : Symbol(F, Decl(spreadOfInstantiatedMappedMember.ts, 4, 17))
+
+function wrap<T extends "text" | "other">() {
+>wrap : Symbol(wrap, Decl(spreadOfInstantiatedMappedMember.ts, 4, 55))
+>T : Symbol(T, Decl(spreadOfInstantiatedMappedMember.ts, 6, 14))
+
+    return { ...({ filter: "text" } as Member) };
+>filter : Symbol(filter, Decl(spreadOfInstantiatedMappedMember.ts, 7, 18))
+>Member : Symbol(Member, Decl(spreadOfInstantiatedMappedMember.ts, 0, 0))
+}
+
+declare const token: ReturnType<typeof wrap> | ReturnType<typeof wrap<"text">>;
+>token : Symbol(token, Decl(spreadOfInstantiatedMappedMember.ts, 10, 13))
+>ReturnType : Symbol(ReturnType, Decl(lib.es5.d.ts, --, --))
+>wrap : Symbol(wrap, Decl(spreadOfInstantiatedMappedMember.ts, 4, 55))
+>ReturnType : Symbol(ReturnType, Decl(lib.es5.d.ts, --, --))
+>wrap : Symbol(wrap, Decl(spreadOfInstantiatedMappedMember.ts, 4, 55))
+
+export const spread = { ...token };
+>spread : Symbol(spread, Decl(spreadOfInstantiatedMappedMember.ts, 11, 12))
+>token : Symbol(token, Decl(spreadOfInstantiatedMappedMember.ts, 10, 13))
+
